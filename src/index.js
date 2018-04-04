@@ -1,3 +1,4 @@
+/*eslint no-useless-escape:off*/
 const path = require('path');
 const fs = require('fs');
 
