@@ -57,7 +57,7 @@ console.log(prefs.get('foo'));
 
 ## API
 
-* **Constructor:**
+* ### ***Constructor:***
 
   ### **`NodePrefs(mOptions)`**
   
@@ -74,7 +74,7 @@ console.log(prefs.get('foo'));
 
   ---
 
-* **Properties:**
+* ### ***Properties:***
 
   |Type|Name|Description|Read-only|Static|
   |:---|:---|:---|:---|:---|
@@ -84,9 +84,9 @@ console.log(prefs.get('foo'));
 
   ---
 
-* **Methods:**
+* ### ***Methods:***
 
-  ### **`NodePrefs.parseDataFile(sFilePath, mDefaults)`**
+  #### **`NodePrefs.parseDataFile(sFilePath, mDefaults)`**
 
     Reads the settings data file and returns its content as a `JSON` object.
 
@@ -101,7 +101,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.flattenObject(oObj, sSeparator)`**
+  #### **`NodePrefs.flattenObject(oObj, sSeparator)`**
 
     *Flattens* nested objects into a single-depth object. For example:
     
@@ -122,7 +122,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.clear()`**
+  #### **`NodePrefs.prototype.clear()`**
 
     Removes all the settings in the settings list.
 
@@ -132,7 +132,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.delete(sKey)`**
+  #### **`NodePrefs.prototype.delete(sKey)`**
 
     Removes the specified settings item from the settings list.
 
@@ -146,7 +146,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.entries()`**
+  #### **`NodePrefs.prototype.entries()`**
 
     Returns a array containing all the `[key, value]` pairs for each settings item in the settings list.
  
@@ -156,7 +156,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.forEach(fCallback, thisArg)`**
+  #### **`NodePrefs.prototype.forEach(fCallback, thisArg)`**
 
     Executes the given function once for each `key-value` pair in the settings list.
 
@@ -171,7 +171,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.has(sKey)`**
+  #### **`NodePrefs.prototype.has(sKey)`**
 
     Returns whether the settings list contains a settings item with the given key or not.
 
@@ -185,7 +185,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.get(sKey)`**
+  #### **`NodePrefs.prototype.get(sKey)`**
 
     Gets the value of the settings item referenced by the given key in the settings list, or the whole list if no key is given.
 
@@ -199,7 +199,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.set(sKey, sValue)`**
+  #### **`NodePrefs.prototype.set(sKey, sValue)`**
 
     Sets the given value as the value of the settings item referenced by the given key in the settings list.
 
@@ -214,7 +214,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.keys()`**
+  #### **`NodePrefs.prototype.keys()`**
 
     Returns the names of all enumerable settings and preferences of this object.
 
@@ -224,7 +224,7 @@ console.log(prefs.get('foo'));
 
     ---
 
-  ### **`NodePrefs.prototype.values()`**
+  #### **`NodePrefs.prototype.values()`**
 
     Returns the names of all enumerable settings and preferences of this object.
 
@@ -236,6 +236,6 @@ console.log(prefs.get('foo'));
 
 ## Version:
 
-  1.0.0
+  1.0.1
 
 ---
