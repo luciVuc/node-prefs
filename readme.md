@@ -78,6 +78,7 @@ console.log(prefs.get('foo'));
 
   |Type|Name|Description|Read-only|Static|
   |:---|:---|:---|:---|:---|
+  |`Object`|**`defaults`**|The default values for this instance.|Yes|No|
   |`String`|**`path`**|The full path to the configuration data file.|Yes|No|
   |`Number`|**`size`**|he number of entries in the settings file (same as `length`).|Yes|No|
   |`Number`|**`length`**|he number of entries in the settings file (same as `size`).|Yes|No|
@@ -236,6 +237,6 @@ console.log(prefs.get('foo'));
 
 ## Version:
 
-  1.0.3
+  1.0.4
 
 ---

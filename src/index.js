@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 
+let mDefaults = new WeakMap();
 let mPrefs = new WeakMap();
 let sPath = new WeakMap();
 
@@ -20,10 +21,14 @@ class NodePrefs {
   static parseDataFile(sFilePath, mDefaults) {
     try {
       // Using the async API of node.js for this purpose
-      return JSON.parse(fs.readFileSync(sFilePath));
+      let m = JSON.parse(fs.readFileSync(sFilePath));
+      let o = Object.assign({}, mDefaults);
+      return Object.keys(o).forEach((key) => {
+        o[key] = m.hasOwnProperty(key) ? m[key] : o[key];
+      });
     } catch (error) {
       // In case of an error, just return the 'defaults" instead.
-      return mDefaults;
+      return Object.assign({}, mDefaults);
     }
   }
 
@@ -58,7 +63,7 @@ class NodePrefs {
    * @param  {String} mOptions.filePath 
    * @param  {String} mOptions.fileName 
    * @param  {Object} mOptions.defaults 
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   constructor(mOptions) {
     mOptions = mOptions && typeof mOptions === "object" ? mOptions : {};
@@ -67,13 +72,23 @@ class NodePrefs {
 
     // Use the `fileName` option to generate the full path for the settings file
     sPath.set(this, path.join(mOptions.filePath, mOptions.fileName + '.json'));
-    mPrefs.set(this, NodePrefs.parseDataFile(this.path, NodePrefs.flattenObject(mOptions.defaults)));
+    mDefaults.set(this, Object.freeze(mOptions.defaults));
+    mPrefs.set(this, NodePrefs.parseDataFile(this.path, NodePrefs.flattenObject(this.defaults)));
+  }
+
+  /**
+   * @returns {Object} - The default values for this instance.
+   * @readonly
+   * @memberof NodePrefs.prototype
+   */
+  get defaults() {
+    return mDefaults.get(this);
   }
 
   /**
    * @returns {String} - The full path to the configuration data file.
    * @readonly
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   get path() {
     return sPath.get(this);
@@ -82,7 +97,7 @@ class NodePrefs {
   /**
    * @returns {Number} - The number of entries in the settings file (same as `length`).
    * @readonly
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   get size() {
     return Object.entries(mPrefs.get(this)).length;
@@ -91,7 +106,7 @@ class NodePrefs {
   /**
    * @returns {Number} - The number of entries in the settings file (same as `size`).
    * @readonly
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   get length() {
     return Object.entries(mPrefs.get(this)).length;
@@ -100,7 +115,7 @@ class NodePrefs {
   /**
    * Removes all the settings in the settings list.
    * @return {NodePrefs} Self-reference for method chaining calls.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   clear() {
     mPrefs.set(this, {});
@@ -111,7 +126,7 @@ class NodePrefs {
    * Removes the specified settings item from the settings list.
    * @param  {String} sKey The settings item to remove.
    * @return {NodePrefs} Self-reference for method chaining calls.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   delete(sKey) {
     delete mPrefs.get(this)[sKey];
@@ -121,7 +136,7 @@ class NodePrefs {
   /**
    * Returns a array containing all the `[key, value]` pairs for each settings item in the settings list.
    * @return {Array} The `[key, value]` pairs array.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   entries() {
     return Object.entries(mPrefs.get(this));
@@ -132,7 +147,7 @@ class NodePrefs {
    * @param  {Function} fCallback The function to execute for each `key-value` pair.
    * @param  {Object} thisArg The value of `this` when executing the callback function.
    * @return {NodePrefs} Self-reference for method chaining calls.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   forEach(fCallback, thisArg) {
     if (typeof fCallback === "function") {
@@ -145,7 +160,7 @@ class NodePrefs {
    * Returns whether the settings list contains a settings item with the given key or not.
    * @param  {String} sKey The key to check the settings list for.
    * @return {Boolean} `true` if the settings list contains a settings item with given key, or `false` otherwise.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   has(sKey) {
     return mPrefs.get(this).hasOwnProperty("" + sKey);
@@ -155,7 +170,7 @@ class NodePrefs {
    * Gets the value of the settings item referenced by the given key in the settings list, or the whole list if no key is given.
    * @param  {String} sKey The key of a settings item in the settings list.
    * @return {any}  The value of the settings item referenced by the key in the settings list, or the whole list if no key is given.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   get(sKey) {
     let oPrefs = mPrefs.get(this);
@@ -180,7 +195,7 @@ class NodePrefs {
    * @param  {String} sKey The key of a settings item in the settings list.
    * @param  {any} sValue The value to assign to the settings item referenced by the key in the settings list.
    * @return {NodePrefs} Self-reference for method chaining calls.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   set(sKey, sValue) {
     if (typeof sKey !== 'string') {
@@ -198,7 +213,7 @@ class NodePrefs {
   /**
    * Returns the names of all enumerable settings and preferences of this object.
    * @return {String[]} The names of the enumerable settings and preferences.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   keys() {
     return Object.keys(mPrefs.get(this));
@@ -207,12 +222,18 @@ class NodePrefs {
   /**
    * Returns the values of all enumerable settings and preferences of this object.
    * @return {String[]} The values of the enumerable settings and preferences.
-   * @memberof NodePrefs
+   * @memberof NodePrefs.prototype
    */
   values() {
     return Object.values(mPrefs.get(this));
   }
 
+  /**
+   * Persists the current state of the instance to its data file.
+   * @private
+   * @return {NodePrefs} Self-reference for method chaining calls.
+   * @memberof NodePrefs.prototype
+   */
   _save() {
     mPrefs.set(this, NodePrefs.flattenObject(mPrefs.get(this)));
     try {
