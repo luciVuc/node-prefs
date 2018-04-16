@@ -19,13 +19,11 @@ class NodePrefs {
    * @memberof NodePrefs
    */
   static parseDataFile(sFilePath, mDefaults) {
+    mDefaults = typeof mDefaults === "object" ? mDefaults : {};
     try {
       // Using the async API of node.js for this purpose
-      let m = JSON.parse(fs.readFileSync(sFilePath));
-      let o = Object.assign({}, mDefaults);
-      return Object.keys(o).forEach((key) => {
-        o[key] = m.hasOwnProperty(key) ? m[key] : o[key];
-      });
+      let mData = JSON.parse(fs.readFileSync(sFilePath));
+      return Object.assign(Object.assign({}, mDefaults), mData);
     } catch (error) {
       // In case of an error, just return the 'defaults" instead.
       return Object.assign({}, mDefaults);
@@ -176,7 +174,7 @@ class NodePrefs {
     let oPrefs = mPrefs.get(this);
     if (!sKey) {
       return Object.assign({}, oPrefs);
-    } else if (sKey in oPrefs) {
+    } else if (oPrefs.hasOwnProperty(sKey)) {
       return oPrefs[sKey];
     }
 
