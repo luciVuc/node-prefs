@@ -104,7 +104,7 @@ class NodePrefs {
    */
   clear() {
     mPrefs.set(this, {});
-    return this;
+    return this._save();
   }
 
   /**
@@ -115,7 +115,7 @@ class NodePrefs {
    */
   delete(sKey) {
     delete mPrefs.get(this)[sKey];
-    return this;
+    return this._save();
   }
 
   /**
@@ -192,14 +192,7 @@ class NodePrefs {
     }
 
     mPrefs.get(this)[sKey] = sValue;
-    mPrefs.set(this, NodePrefs.flattenObject(mPrefs.get(this)));
-    try {
-      // Using the node.js' synchronous APIs for this purpose.
-      fs.writeFileSync(this.path, JSON.stringify(mPrefs.get(this)));
-    } catch (error) {
-      // console.log(error);
-    }
-    return this;
+    return this._save();
   }
 
   /**
@@ -218,6 +211,17 @@ class NodePrefs {
    */
   values() {
     return Object.values(mPrefs.get(this));
+  }
+
+  _save() {
+    mPrefs.set(this, NodePrefs.flattenObject(mPrefs.get(this)));
+    try {
+      // Using the node.js' synchronous APIs for this purpose.
+      fs.writeFileSync(this.path, JSON.stringify(mPrefs.get(this)));
+    } catch (error) {
+      // console.log(error);
+    }
+    return this;
   }
 }
 
