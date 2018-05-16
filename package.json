@@ -1,7 +1,7 @@
 {
   "name": "node-prefs",
-  "version": "1.0.5",
-  "description": "Persist and retrieve with ease configuration and preference settings in your `node.js` apps.",
+  "version": "1.0.6",
+  "description": "User preferences and configuration settings persistence feature for `node.js` apps.",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint src/",
@@ -18,13 +18,12 @@
     "store",
     "storage",
     "conf",
-    "configuration",
-    "settings",
-    "preferences",
+    "configuration settings",
+    "user preferences",
     "json",
     "data",
     "persist",
-    "persistent",
+    "persistence",
     "save"
   ],
   "author": "Lucian Vuc (https://github.com/luciVuc)",
