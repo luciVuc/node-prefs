@@ -1,6 +1,6 @@
 {
   "name": "node-prefs",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "User preferences and configuration settings persistence feature for `node.js` apps.",
   "main": "src/index.js",
   "scripts": {
@@ -30,9 +30,9 @@
   "license": "ISC",
   "homepage": "https://github.com/luciVuc/node-prefs",
   "devDependencies": {
-    "eslint": "^5.13.0",
-    "mocha": "^5.2.0",
-    "sinon": "^7.2.3"
+    "eslint": "^6.0.1",
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2"
   },
   "dependencies": {}
 }

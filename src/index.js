@@ -8,8 +8,9 @@ let sPath = new WeakMap();
 
 /**
  * @class NodePrefs
+ * Expose the <code>NodePrefs</code> class
  */
-class NodePrefs {
+module.exports = class NodePrefs {
   /**
    * Reads the settings data file and returns its content as a `JSON` object.
    * @static
@@ -161,7 +162,7 @@ class NodePrefs {
    * @memberof NodePrefs.prototype
    */
   has(sKey) {
-    return mPrefs.get(this).hasOwnProperty("" + sKey);
+    return Object.prototype.hasOwnProperty.call(mPrefs.get(this), "" + sKey);
   }
 
   /**
@@ -174,7 +175,7 @@ class NodePrefs {
     let oPrefs = mPrefs.get(this);
     if (!sKey) {
       return Object.assign({}, oPrefs);
-    } else if (oPrefs.hasOwnProperty(sKey)) {
+    } else if (Object.prototype.hasOwnProperty.call(oPrefs, sKey)) {
       return oPrefs[sKey];
     }
 
@@ -242,7 +243,4 @@ class NodePrefs {
     }
     return this;
   }
-}
-
-// expose the class
-module.exports = NodePrefs;
+};

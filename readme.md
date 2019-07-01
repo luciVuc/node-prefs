@@ -237,6 +237,6 @@ Creates an instance of `NodePrefs`.
 
 ## Version
 
-  1.0.6
+  1.0.7
 
 ---
